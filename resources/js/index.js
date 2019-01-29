@@ -1,10 +1,11 @@
 // --- WEBPACK -> Mandatory --- \\
 import '../sass/main.scss';
+// --- Importing Libraries --- \\
+import uniqid from 'uniqid'; // Unique ID
 
 // -- Creating Users System -- \\
 // --- Users Module | USER CONTROLLER | IIFE ---
 const userController = (() => {
-
     // User Class
     class User {
         constructor(fullName, age, job, location, salary, id) { // 'Safe' way of creating Class and its instances
@@ -23,17 +24,20 @@ const userController = (() => {
 
     // All Users Array 
     const allUsers = [];
-
     // Exposing Methods
     return {
+        // Adding user to data
         addUser: (name, age, job, location, salary, id) => {
             const createUser = new User(name, age, job, location, salary, id);
             allUsers.push(createUser);
-            console.log(allUsers);
+            console.log(allUsers); //temp
             return createUser;
         },
-        deleteUser: (name, age, job, location, salary) => {
-            // Todo
+        // Deleting user from data
+        deleteUser: id => {
+            const index = allUsers.findIndex(el => el.id === id);
+            allUsers.splice(index, 1);
+            console.log(allUsers);
         }
     }
 })();
@@ -50,7 +54,6 @@ const UICtrl = (() => {
         iJob: document.querySelector('.iJob'),
         iLocation: document.querySelector('.iLocation'),
         iSalary: document.querySelector('.iSalary'),
-        btnReset: document.querySelector('.btnReset'),
         userDiv: document.querySelector('.user')
     };
     const allInputs = {
@@ -60,7 +63,7 @@ const UICtrl = (() => {
     // Exposing Methods
     return {
         // Rendering User Profile
-        renderUserProfile: (user) => {
+        renderUserProfile: user => {
             const markup1 = `
             <div class="user-created" data-itemid=${user.id}>
                 <p><span>Full Name</span>: ${user.fullName}</p>
@@ -68,12 +71,19 @@ const UICtrl = (() => {
                 <p><span>Job</span>: ${user.job}</p>
                 <p><span>Location</span>: ${user.location}</p>
                 <p><span>Salary</span>: $ ${user.salary}</p>
-                <button class="btnReset">Reset</button>
+                <button class="btnReset btn">
+                    <span class="btn__visible">Reset</span>
+                    <span class="btn__invisible">Now</span>
+                </button>
             </div>
             `;
             DOMStrings.userDiv.insertAdjacentHTML('afterbegin', markup1); // Renders markup
         },
-
+        // Deletes user profile from UI
+        deleteUserProfile: id => {
+            const user = document.querySelector(`[data-itemid="${id}"]`);
+            user.parentElement.removeChild(user);
+        },
         // Getting DOM Strings
         getDOMStrings: () => {
             return DOMStrings;
@@ -85,7 +95,7 @@ const UICtrl = (() => {
 })();
 
 // --- Main Controller Module | MAIN CONTROLLER | IIFE ---
-const controller = (() => {
+const mainController = (() => {
     //import uniqid from 'uniqid'; // Unique ID
 
     // Getting DOM Strings from UI Controller
@@ -111,10 +121,21 @@ const controller = (() => {
                 }
             });
         } else {
-            const user = userController.addUser(fullNameV, ageV, jobV, locationV, salaryV); // Creates new user object from class
+            const user = userController.addUser(fullNameV, ageV, jobV, locationV, salaryV, uniqid()); // Creates new user object from class
             UICtrl.renderUserProfile(user); // Renders user HTML
             inputVal.inputValue.forEach(el => el.value = ''); // Resets input values to empty string
             e.preventDefault(); // Prevents default on button click
+        }
+    });
+
+    // - EVENT LISTENER - | Deletes User on click
+    DOM.userDiv.addEventListener('click', e => {
+        const id = e.target.closest('.user-created').dataset.itemid; // Gets id from the user div
+
+        // Deletes user from data and ui
+        if (e.target.matches('.btnReset, .btnReset *')) {
+            userController.deleteUser(id);
+            UICtrl.deleteUserProfile(id);
         }
     });
 
