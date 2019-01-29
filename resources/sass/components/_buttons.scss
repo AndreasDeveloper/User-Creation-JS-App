@@ -1,0 +1,54 @@
+/* ------------------------------------------- */
+// BUTTON STYLE #1
+/* ------------------------------------------- */
+
+.btn {
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-family: 'Raleway';
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    border-radius: 10rem;
+    border: none;
+    background-image: linear-gradient(to right, $color-primary-light, $color-primary-light);
+    color: $color-white;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+
+    // SELECTS ALL OF THE CHILD ELEMENTS \\
+    & > * {
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        transition: all .2s ease-in-out;
+    }
+
+    &__visible {
+        padding: 1rem 2.2rem;
+    }
+
+    &__invisible {
+        position: absolute;
+        padding: 2rem 0;
+        left: 0;
+        top: -100%;
+    }
+
+    // FUNCTIONALITY FOR THE BUTTON \\
+    &:hover {
+        background-image: linear-gradient(to left, $color-primary-dark, $color-primary-dark);
+    }
+
+    &:hover &__visible  {
+        transform: translateY(100%);
+    }
+
+    &:hover &__invisible {
+        top: -30%;
+    }
+
+    &:focus {
+        outline: none;
+    }
+}

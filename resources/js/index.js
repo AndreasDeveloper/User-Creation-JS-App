@@ -62,12 +62,12 @@ const UICtrl = (() => {
         // Rendering User Profile
         renderUserProfile: (user) => {
             const markup1 = `
-            <div class="userC" data-itemid=${user.id}>
+            <div class="user-created" data-itemid=${user.id}>
                 <p><span>Full Name</span>: ${user.fullName}</p>
                 <p><span>Age</span>: ${user.age}</p>
                 <p><span>Job</span>: ${user.job}</p>
                 <p><span>Location</span>: ${user.location}</p>
-                <p><span>Salary</span>: $${user.salary}</p>
+                <p><span>Salary</span>: $ ${user.salary}</p>
                 <button class="btnReset">Reset</button>
             </div>
             `;

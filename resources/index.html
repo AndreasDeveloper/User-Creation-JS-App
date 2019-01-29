@@ -6,23 +6,27 @@
     <title>User Creator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" media="screen" href="../dist/css/main.css" />
 </head>
 <body>
     
     <!-- Creating Users Section -->
-    <h1 class="heading-1">Create New User</h1>
-    <form class="form-1">
-        <input type="text" placeholder="Full Name" class="iFullName" required>
-        <input type="number" placeholder="Age" class="iAge" required>
-        <input type="text" placeholder="Job" class="iJob" required>
-        <input type="text" placeholder="Location" class="iLocation" required>
-        <input type="number" placeholder="Salary" class="iSalary" required>
-        <input type="submit" class="createUs">
-    </form>
-
-    <!-- Wrapper To Be Filled with Data-->
-    <div class="wrapper-2">
+    <div class="header-min">
+        <h1 class="header-min__heading-1">Create New User</h1>
+    </div>
+    <!-- FORM & CREATED USER DATA -->
+    <div class="user-data">
+        <form class="form-1">
+            <input type="text" placeholder="Full Name" class="iFullName" required>
+            <input type="number" placeholder="Age" class="iAge" required>
+            <input type="text" placeholder="Job" class="iJob" required>
+            <input type="text" placeholder="Location" class="iLocation" required>
+            <input type="number" placeholder="Salary" class="iSalary" required>
+            <button class="btn createUs">
+                <span class="btn__visible">Create User</span>
+                <span class="btn__invisible">Now</span>
+            </button>
+        </form>
+        <!-- Wrapper To Be Filled with Data-->
         <div class="user"></div>
     </div>
     
