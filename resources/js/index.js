@@ -20,9 +20,9 @@ const userController = (() => {
                 return new User(fullName, age, job, location, salary, id);
             }
         }
-    }
+    };
 
-    // All Users Array 
+    // All Users Array | - Stores Objects of users
     const allUsers = [];
     // Exposing Methods
     return {
@@ -39,7 +39,7 @@ const userController = (() => {
             allUsers.splice(index, 1);
             console.log(allUsers);
         }
-    }
+    };
 })();
 
 // --- UI Module | UI CONTROLLER | IIFE ---
@@ -91,7 +91,7 @@ const UICtrl = (() => {
         getAllInputs: () => {
             return allInputs;
         }
-    }
+    };
 })();
 
 // --- Main Controller Module | MAIN CONTROLLER | IIFE ---

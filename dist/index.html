@@ -13,17 +13,20 @@
     <div class="header-min">
         <h1 class="header-min__heading-1">Create New User</h1>
     </div>
-    <form class="form-1">
-        <input type="text" placeholder="Full Name" class="iFullName" required>
-        <input type="number" placeholder="Age" class="iAge" required>
-        <input type="text" placeholder="Job" class="iJob" required>
-        <input type="text" placeholder="Location" class="iLocation" required>
-        <input type="number" placeholder="Salary" class="iSalary" required>
-        <input type="submit" class="createUs">
-    </form>
-
-    <!-- Wrapper To Be Filled with Data-->
-    <div class="wrapper-2">
+    <!-- FORM & CREATED USER DATA -->
+    <div class="user-data">
+        <form class="form-1">
+            <input type="text" placeholder="Full Name" class="iFullName" required>
+            <input type="number" placeholder="Age" class="iAge" required min="18" max="100">
+            <input type="text" placeholder="Job" class="iJob" required>
+            <input type="text" placeholder="Location" class="iLocation" required>
+            <input type="number" placeholder="Salary" class="iSalary" required>
+            <button class="btn createUs">
+                <span class="btn__visible">Create User</span>
+                <span class="btn__invisible">Now</span>
+            </button>
+        </form>
+        <!-- DIV To Be Filled with Data-->
         <div class="user"></div>
     </div>
     
