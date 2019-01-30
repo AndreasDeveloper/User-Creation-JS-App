@@ -4,7 +4,10 @@ import '../sass/main.scss';
 import uniqid from 'uniqid'; // Unique ID
 
 // -- Creating Users System -- \\
-// --- Users Module | USER CONTROLLER | IIFE ---
+
+/* -------------------------------------------------------------- */
+/*        --- Users Module | USER CONTROLLER | IIFE ---     
+/* -------------------------------------------------------------- */
 const userController = (() => {
     // User Class
     class User {
@@ -42,7 +45,9 @@ const userController = (() => {
     };
 })();
 
-// --- UI Module | UI CONTROLLER | IIFE ---
+/* -------------------------------------------------------------- */
+/*             --- UI Module | UI CONTROLLER | IIFE ---
+/* -------------------------------------------------------------- */
 const UIController = (() => {
 
     // DOM Elements
@@ -104,7 +109,9 @@ const UIController = (() => {
     };
 })();
 
-// --- Main Controller Module | MAIN CONTROLLER | IIFE ---
+/* -------------------------------------------------------------- */
+/*    --- Main Controller Module | MAIN CONTROLLER | IIFE ---
+/* -------------------------------------------------------------- */
 const mainController = ((userCtrl, UICtrl) => {
     //import uniqid from 'uniqid'; // Unique ID
 
@@ -121,7 +128,7 @@ const mainController = ((userCtrl, UICtrl) => {
               locationV = DOM.iLocation.value,
               salaryV = DOM.iSalary.value;
 
-        // Checks if fullName is empty string
+        // Checks if fullName is empty string or number
         if (fullNameV === '' || fullNameV === ' ' || !isNaN(fullNameV)) {
             UICtrl.errorClass(DOM.iFullName);
             e.preventDefault();
@@ -168,7 +175,8 @@ const mainController = ((userCtrl, UICtrl) => {
         } else {
             const user = userCtrl.addUser(fullNameV, ageV, jobV, locationV, salaryV, uniqid()); // Creates new user object from class
             UICtrl.renderUserProfile(user); // Renders user HTML
-            inputVal.inputValue.forEach(el => { // Resets each element
+            // Resets each element 
+            inputVal.inputValue.forEach(el => {
                 el.value = '';
                 el.classList.remove('inputError');
                 el.classList.remove('inputSuccess');
@@ -182,7 +190,6 @@ const mainController = ((userCtrl, UICtrl) => {
     // - EVENT LISTENER - | Deletes User on click
     DOM.userDiv.addEventListener('click', e => {
         const id = e.target.closest('.user-created').dataset.itemid; // Gets id from the user div
-
         // Deletes user from data and ui
         if (e.target.matches('.btnReset, .btnReset *')) { // Checks where is user clicking (button and all of it children)
             userCtrl.deleteUser(id);

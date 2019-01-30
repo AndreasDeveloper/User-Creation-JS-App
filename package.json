@@ -1,7 +1,7 @@
 {
   "name": "userCreation",
   "version": "1.0.0",
-  "description": "Application related to creating users and storing them in a 'database'.",
+  "description": "Application related to creating users and managing teams.",
   "main": "index.js",
   "scripts": {
     "dev": "webpack --mode development",
