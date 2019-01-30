@@ -43,7 +43,7 @@ const userController = (() => {
 })();
 
 // --- UI Module | UI CONTROLLER | IIFE ---
-const UICtrl = (() => {
+const UIController = (() => {
 
     // DOM Elements
     const DOMStrings = {
@@ -72,7 +72,7 @@ const UICtrl = (() => {
                 <p><span>Location</span>: ${user.location}</p>
                 <p><span>Salary</span>: $ ${user.salary}</p>
                 <button class="btnReset btn">
-                    <span class="btn__visible">Reset</span>
+                    <span class="btn__visible">Delete</span>
                     <span class="btn__invisible">Now</span>
                 </button>
             </div>
@@ -95,7 +95,7 @@ const UICtrl = (() => {
 })();
 
 // --- Main Controller Module | MAIN CONTROLLER | IIFE ---
-const mainController = (() => {
+const mainController = ((userCtrl, UICtrl) => {
     //import uniqid from 'uniqid'; // Unique ID
 
     // Getting DOM Strings from UI Controller
@@ -121,7 +121,7 @@ const mainController = (() => {
                 }
             });
         } else {
-            const user = userController.addUser(fullNameV, ageV, jobV, locationV, salaryV, uniqid()); // Creates new user object from class
+            const user = userCtrl.addUser(fullNameV, ageV, jobV, locationV, salaryV, uniqid()); // Creates new user object from class
             UICtrl.renderUserProfile(user); // Renders user HTML
             inputVal.inputValue.forEach(el => el.value = ''); // Resets input values to empty string
             e.preventDefault(); // Prevents default on button click
@@ -134,9 +134,9 @@ const mainController = (() => {
 
         // Deletes user from data and ui
         if (e.target.matches('.btnReset, .btnReset *')) {
-            userController.deleteUser(id);
+            userCtrl.deleteUser(id);
             UICtrl.deleteUserProfile(id);
         }
     });
 
-})();
+})(userController, UIController);
