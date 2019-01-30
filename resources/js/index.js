@@ -84,6 +84,16 @@ const UIController = (() => {
             const user = document.querySelector(`[data-itemid="${id}"]`);
             user.parentElement.removeChild(user);
         },
+        errorClass: (domEl) => {
+            domEl.classList.remove('inputNormal');
+            domEl.classList.remove('inputSuccess');
+            domEl.classList.add('inputError');
+        },
+        successClass: (domEl) => {
+            domEl.classList.remove('inputError');
+            domEl.classList.remove('inputNormal');
+            domEl.classList.add('inputSuccess');
+        },
         // Getting DOM Strings
         getDOMStrings: () => {
             return DOMStrings;
@@ -110,20 +120,61 @@ const mainController = ((userCtrl, UICtrl) => {
               jobV = DOM.iJob.value,
               locationV = DOM.iLocation.value,
               salaryV = DOM.iSalary.value;
+
+        // Checks if fullName is empty string
+        if (fullNameV === '' || fullNameV === ' ' || !isNaN(fullNameV)) {
+            UICtrl.errorClass(DOM.iFullName);
+            e.preventDefault();
+            return null;
+        } else {
+            UICtrl.successClass(DOM.iFullName);
+        }
+        // Checks if age is less than 18 or greater than 110
+        if (ageV < 18 || ageV > 110) {
+            UICtrl.errorClass(DOM.iAge);
+            e.preventDefault();
+            return null;
+        } else {
+            UICtrl.successClass(DOM.iAge);
+        }
+        // Checks if job field is number or not
+        if (!isNaN(jobV)) {
+            UICtrl.errorClass(DOM.iJob);
+            e.preventDefault();
+            return null;
+        } else {
+            UICtrl.successClass(DOM.iJob);
+        }
+        // Checks if location field is number or not
+        if (!isNaN(locationV)) {
+            UICtrl.errorClass(DOM.iLocation);
+            e.preventDefault();
+            return null;
+        } else {
+            UICtrl.successClass(DOM.iLocation);
+        }
+        // Checks if salary field is number
+        if (salaryV === '' || salaryV === ' ' || isNaN(salaryV)) {
+            UICtrl.errorClass(DOM.iSalary);
+            e.preventDefault();
+            return null;
+        } else {
+            UICtrl.successClass(DOM.iSalary);
+        }
+
         // Checks whether input fields are empty or not
-        if (DOM.iFullName.value === '' || DOM.iAge.value === '' || DOM.iJob.value === '' || DOM.iLocation.value === '' || DOM.iSalary.value === '') {
-            // Error handling
-            inputVal.inputValue.forEach(el => {
-                if (el.value === '') {
-                    console.log(`${el.placeholder} field is empty.`);
-                } else {
-                    null;
-                }
-            });
+        if (fullNameV === '' || ageV === '' || jobV === '' || locationV === '' || salaryV === '') {
+            return null;
         } else {
             const user = userCtrl.addUser(fullNameV, ageV, jobV, locationV, salaryV, uniqid()); // Creates new user object from class
             UICtrl.renderUserProfile(user); // Renders user HTML
-            inputVal.inputValue.forEach(el => el.value = ''); // Resets input values to empty string
+            inputVal.inputValue.forEach(el => { // Resets each element
+                el.value = '';
+                el.classList.remove('inputError');
+                el.classList.remove('inputSuccess');
+                el.classList.add('inputNormal');
+            }); 
+            DOM.iAge.value = '18'; // Resets default value
             e.preventDefault(); // Prevents default on button click
         }
     });
@@ -133,7 +184,7 @@ const mainController = ((userCtrl, UICtrl) => {
         const id = e.target.closest('.user-created').dataset.itemid; // Gets id from the user div
 
         // Deletes user from data and ui
-        if (e.target.matches('.btnReset, .btnReset *')) {
+        if (e.target.matches('.btnReset, .btnReset *')) { // Checks where is user clicking (button and all of it children)
             userCtrl.deleteUser(id);
             UICtrl.deleteUserProfile(id);
         }

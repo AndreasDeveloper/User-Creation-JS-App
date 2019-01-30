@@ -2,6 +2,17 @@
 /*      - HOME PAGE -       */
 /* ------------------------ */
 
+// -- ERROR / SUCCESS -- \\
+.inputError {
+    border: .1rem solid $color-red;
+}
+.inputSuccess {
+    border: .1rem solid $color-green;
+}
+.inputNormal {
+    border: .1rem solid $color-gray-light-5;
+}
+
 // -- HEADER -- \\
 .header-min {
     height: 30vh;
@@ -23,6 +34,7 @@
 
 // -- FORM & INPUTS -- \\
 .form-1 {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -30,10 +42,17 @@
     margin-top: 4rem;
 }
 .form-1 input:nth-child(-n+5) {
+    position: relative;
     padding: 1rem;
     margin: .4rem;
-    border: .1rem solid $color-primary-light;
     outline: none;
+    transition: all .2s ease-in-out;
+    &:hover {
+        border: .1rem solid $color-primary;
+    }
+    &:focus {
+        border: .1rem solid $color-primary-light;
+    }
 }
 
 // -- CREATED USER DATA -- \\
