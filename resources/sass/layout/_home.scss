@@ -69,7 +69,19 @@
 }
 // Star Icon
 .star {
-    font-size: 2.5rem;
+    font-size: 4rem;
     cursor: pointer;
     @include jacont;
+    transition: all .2s;
+    // On Hover
+    &:hover {
+        color: $color-primary-light;
+    }
+    // Full Star
+    &__full {
+        color: $color-primary-dark;
+        &:hover {
+            color: $color-primary-dark;
+        }
+    }
 }

@@ -60,7 +60,7 @@ const UIController = (() => {
         iLocation: document.querySelector('.iLocation'),
         iSalary: document.querySelector('.iSalary'),
         userDiv: document.querySelector('.user'),
-        star: document.querySelector('i')
+        star: document.querySelector('.icon ion-ios-star-outline star')
     };
     const allInputs = {
         inputValue: [DOMStrings.iFullName, DOMStrings.iAge, DOMStrings.iJob, DOMStrings.iLocation, DOMStrings.iSalary]
@@ -196,6 +196,19 @@ const mainController = ((userCtrl, UICtrl) => {
         if (e.target.matches('.btnReset, .btnReset *')) { // Checks where is user clicking (button and all of it children)
             userCtrl.deleteUser(id);
             UICtrl.deleteUserProfile(id);
+        }
+    });
+    
+    // - EVENT LISTENER - | Adds star to user's block
+    DOM.userDiv.addEventListener('click', e => {
+        const starU = e.target.closest('i');
+        const starClass = e.target.className;
+        if (starClass === 'icon ion-ios-star-outline star') {
+            starU.classList.remove('icon', 'ion-ios-star-outline', 'star');
+            starU.classList.add('icon', 'ion-ios-star', 'star' ,'star__full');  
+        } else if (starClass === 'icon ion-ios-star star star__full') {
+            starU.classList.remove('icon', 'ion-ios-star', 'star', 'star__full');
+            starU.classList.add('icon', 'ion-ios-star-outline', 'star');
         }
     });
 
