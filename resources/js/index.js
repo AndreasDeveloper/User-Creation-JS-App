@@ -59,7 +59,8 @@ const UIController = (() => {
         iJob: document.querySelector('.iJob'),
         iLocation: document.querySelector('.iLocation'),
         iSalary: document.querySelector('.iSalary'),
-        userDiv: document.querySelector('.user')
+        userDiv: document.querySelector('.user'),
+        star: document.querySelector('i')
     };
     const allInputs = {
         inputValue: [DOMStrings.iFullName, DOMStrings.iAge, DOMStrings.iJob, DOMStrings.iLocation, DOMStrings.iSalary]
@@ -71,6 +72,7 @@ const UIController = (() => {
         renderUserProfile: user => {
             const markup1 = `
             <div class="user-created" data-itemid=${user.id}>
+                <i class="icon ion-ios-star-outline star"></i>
                 <p><span>Full Name</span>: ${user.fullName}</p>
                 <p><span>Age</span>: ${user.age}</p>
                 <p><span>Job</span>: ${user.job}</p>
@@ -89,12 +91,12 @@ const UIController = (() => {
             const user = document.querySelector(`[data-itemid="${id}"]`);
             user.parentElement.removeChild(user);
         },
-        errorClass: (domEl) => {
+        errorClass: domEl => {
             domEl.classList.remove('inputNormal');
             domEl.classList.remove('inputSuccess');
             domEl.classList.add('inputError');
         },
-        successClass: (domEl) => {
+        successClass: domEl => {
             domEl.classList.remove('inputError');
             domEl.classList.remove('inputNormal');
             domEl.classList.add('inputSuccess');
@@ -160,8 +162,8 @@ const mainController = ((userCtrl, UICtrl) => {
         } else {
             UICtrl.successClass(DOM.iLocation);
         }
-        // Checks if salary field is number
-        if (salaryV === '' || salaryV === ' ' || isNaN(salaryV)) {
+        // Checks if salary field is number, empty, or negative
+        if (salaryV === '' || salaryV === ' ' || isNaN(salaryV) || salaryV < 0) {
             UICtrl.errorClass(DOM.iSalary);
             e.preventDefault();
             return null;

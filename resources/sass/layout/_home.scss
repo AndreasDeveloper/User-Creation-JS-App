@@ -67,3 +67,9 @@
 .user-created span { // Span el inside of a newly created div
     font-weight: 600;
 }
+// Star Icon
+.star {
+    font-size: 2.5rem;
+    cursor: pointer;
+    @include jacont;
+}
