@@ -11,16 +11,17 @@ import uniqid from 'uniqid'; // Unique ID
 const userController = (() => {
     // User Class
     class User {
-        constructor(fullName, age, job, location, salary, id) { // 'Safe' way of creating Class and its instances
+        constructor(fullName, age, job, location, salary, currency ,id) { // 'Safe' way of creating Class and its instances
             if (this instanceof User) {
                 this.fullName = fullName;
                 this.age = age;
                 this.job = job;
                 this.location = location;
                 this.salary = salary;
+                this.currency = currency;
                 this.id = id;
             } else { 
-                return new User(fullName, age, job, location, salary, id);
+                return new User(fullName, age, job, location, salary, currency ,id);
             }
         }
     };
@@ -30,17 +31,27 @@ const userController = (() => {
     // Exposing Methods
     return {
         // Adding user to data
-        addUser: (name, age, job, location, salary, id) => {
-            const createUser = new User(name, age, job, location, salary, id);
+        addUser: (name, age, job, location, salary, currency, id) => {
+            const createUser = new User(name, age, job, location, salary, currency, id);
             allUsers.push(createUser);
-            console.log(allUsers); //temp
+            console.log(allUsers);
             return createUser;
         },
         // Deleting user from data
         deleteUser: id => {
             const index = allUsers.findIndex(el => el.id === id);
-            allUsers.splice(index, 1);
             console.log(allUsers);
+            allUsers.splice(index, 1);
+        },
+        // Checks which currency is selected
+        checkCurrency: curr => {
+            if (curr === 'usd') {
+                return '&dollar;';
+            } else if (curr === 'eur') {
+                return '&euro;';
+            } else if (curr === 'gbt') {
+                return '&pound;';
+            }
         }
     };
 })();
@@ -60,7 +71,8 @@ const UIController = (() => {
         iLocation: document.querySelector('.iLocation'),
         iSalary: document.querySelector('.iSalary'),
         userDiv: document.querySelector('.user'),
-        star: document.querySelector('.icon ion-ios-star-outline star')
+        star: document.querySelector('.icon ion-ios-star-outline star'),
+        currency: document.querySelector('.currency')
     };
     const allInputs = {
         inputValue: [DOMStrings.iFullName, DOMStrings.iAge, DOMStrings.iJob, DOMStrings.iLocation, DOMStrings.iSalary]
@@ -77,7 +89,7 @@ const UIController = (() => {
                 <p><span>Age</span>: ${user.age}</p>
                 <p><span>Job</span>: ${user.job}</p>
                 <p><span>Location</span>: ${user.location}</p>
-                <p><span>Salary</span>: $ ${user.salary}</p>
+                <p><span>Salary</span>: ${userController.checkCurrency(DOMStrings.currency.value)} ${user.salary}</p>
                 <button class="btnReset btn">
                     <span class="btn__visible">Delete</span>
                     <span class="btn__invisible">Now</span>
@@ -109,14 +121,14 @@ const UIController = (() => {
             return allInputs;
         }
     };
+    
 })();
 
 /* -------------------------------------------------------------- */
 /*    --- Main Controller Module | MAIN CONTROLLER | IIFE ---
 /* -------------------------------------------------------------- */
 const mainController = ((userCtrl, UICtrl) => {
-    //import uniqid from 'uniqid'; // Unique ID
-
+    
     // Getting DOM Strings from UI Controller
     const DOM = UICtrl.getDOMStrings();
     const inputVal = UICtrl.getAllInputs();
@@ -128,8 +140,8 @@ const mainController = ((userCtrl, UICtrl) => {
               ageV = DOM.iAge.value,
               jobV = DOM.iJob.value,
               locationV = DOM.iLocation.value,
+              currencyV = DOM.currency.value,
               salaryV = DOM.iSalary.value;
-
         // Checks if fullName is empty string or number
         if (fullNameV === '' || fullNameV === ' ' || !isNaN(fullNameV)) {
             UICtrl.errorClass(DOM.iFullName);
@@ -174,8 +186,8 @@ const mainController = ((userCtrl, UICtrl) => {
         // Checks whether input fields are empty or not
         if (fullNameV === '' || ageV === '' || jobV === '' || locationV === '' || salaryV === '') {
             return null;
-        } else {
-            const user = userCtrl.addUser(fullNameV, ageV, jobV, locationV, salaryV, uniqid()); // Creates new user object from class
+        } else { 
+            const user = userCtrl.addUser(fullNameV, ageV, jobV, locationV, salaryV, currencyV, uniqid()); // Creates new user object from class
             UICtrl.renderUserProfile(user); // Renders user HTML
             // Resets each element 
             inputVal.inputValue.forEach(el => {
@@ -191,7 +203,7 @@ const mainController = ((userCtrl, UICtrl) => {
 
     // - EVENT LISTENER - | Deletes User on click
     DOM.userDiv.addEventListener('click', e => {
-        const id = e.target.closest('.user-created').dataset.itemid; // Gets id from the user div
+        const id = e.target.closest('.user, .user-created').dataset.itemid; // Gets id from the user div
         // Deletes user from data and ui
         if (e.target.matches('.btnReset, .btnReset *')) { // Checks where is user clicking (button and all of it children)
             userCtrl.deleteUser(id);

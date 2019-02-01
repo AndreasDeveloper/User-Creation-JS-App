@@ -41,7 +41,7 @@
     align-items: center;
     margin-top: 4rem;
 }
-.form-1 input:nth-child(-n+5) {
+.form-1 input:nth-child(-n+5), select {
     position: relative;
     padding: 1rem;
     margin: .4rem;
