@@ -145,7 +145,6 @@ const mainController = ((userCtrl, UICtrl) => {
         // Checks if fullName is empty string or number
         if (fullNameV === '' || fullNameV === ' ' || !isNaN(fullNameV)) {
             UICtrl.errorClass(DOM.iFullName);
-            e.preventDefault();
             return null;
         } else {
             UICtrl.successClass(DOM.iFullName);
@@ -153,7 +152,6 @@ const mainController = ((userCtrl, UICtrl) => {
         // Checks if age is less than 18 or greater than 110
         if (ageV < 18 || ageV > 110) {
             UICtrl.errorClass(DOM.iAge);
-            e.preventDefault();
             return null;
         } else {
             UICtrl.successClass(DOM.iAge);
@@ -161,7 +159,6 @@ const mainController = ((userCtrl, UICtrl) => {
         // Checks if job field is number or not
         if (!isNaN(jobV)) {
             UICtrl.errorClass(DOM.iJob);
-            e.preventDefault();
             return null;
         } else {
             UICtrl.successClass(DOM.iJob);
@@ -169,7 +166,6 @@ const mainController = ((userCtrl, UICtrl) => {
         // Checks if location field is number or not
         if (!isNaN(locationV)) {
             UICtrl.errorClass(DOM.iLocation);
-            e.preventDefault();
             return null;
         } else {
             UICtrl.successClass(DOM.iLocation);
@@ -177,7 +173,6 @@ const mainController = ((userCtrl, UICtrl) => {
         // Checks if salary field is number, empty, or negative
         if (salaryV === '' || salaryV === ' ' || isNaN(salaryV) || salaryV < 0) {
             UICtrl.errorClass(DOM.iSalary);
-            e.preventDefault();
             return null;
         } else {
             UICtrl.successClass(DOM.iSalary);
@@ -224,4 +219,19 @@ const mainController = ((userCtrl, UICtrl) => {
         }
     });
 
+    // Exposing init method
+    return {
+        // Initalization Method
+        init: () => {
+            ['load', 'click'].forEach(e => {
+                window.addEventListener(e, event => {
+                    event.preventDefault();
+                });
+            });
+        }
+    }
+
 })(userController, UIController);
+
+// Calling init method.
+mainController.init();
